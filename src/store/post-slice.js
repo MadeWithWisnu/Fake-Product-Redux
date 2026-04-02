@@ -1,4 +1,3 @@
-// store/postSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import dummyProducts from '../data/dummyProducts';
 

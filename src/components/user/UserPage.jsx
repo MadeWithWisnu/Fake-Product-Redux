@@ -1,4 +1,3 @@
-// components/user/UserPage.jsx
 import { Outlet } from 'react-router-dom';
 import NavBar from '../ui-element/NavBar';
 import { SimpleWrapper } from '../ui-element/SimpleWrapper';

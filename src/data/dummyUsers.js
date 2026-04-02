@@ -1,4 +1,3 @@
-// src/data/dummyUsers.js
 const dummyUsers = [
   {
     id: 1,

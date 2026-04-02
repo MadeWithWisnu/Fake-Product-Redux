@@ -1,4 +1,3 @@
-// store/userSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import dummyUsers from '../data/dummyUsers';
 import dummyCarts from '../data/dummyCharts';

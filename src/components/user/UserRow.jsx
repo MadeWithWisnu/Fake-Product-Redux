@@ -1,4 +1,3 @@
-// components/user/UserRow.jsx
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { List } from '../ui-element/List';

@@ -1,4 +1,3 @@
-// data/dummyCarts.js
 const dummyCarts = [
   {
     _id: 1,

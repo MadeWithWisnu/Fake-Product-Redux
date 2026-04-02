@@ -1,4 +1,3 @@
-// components/user/UserGrid.jsx
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
