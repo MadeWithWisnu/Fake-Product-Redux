@@ -31,6 +31,7 @@ const UserMeta = styled.div`
 const Actions = styled.div`
     display: flex;
     align-items: center;
+    gap: 10px;
 `;
 
 export default function UserRow({ user }) {

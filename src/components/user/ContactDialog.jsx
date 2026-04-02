@@ -33,7 +33,7 @@ export default function ContactDialog() {
             {/* Body */}
             {detailStatus === 'succeeded' && user && (
                 <table>
-                    <tbody>
+                    <tbody>    
                         <tr>
                             <td>📞 Phone</td>
                             <td>{user.phone}</td>

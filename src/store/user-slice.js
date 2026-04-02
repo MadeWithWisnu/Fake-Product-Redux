@@ -3,6 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import dummyUsers from '../data/dummyUsers';
 import dummyCarts from '../data/dummyCharts';
 
+const USE_DUMMY = true; // ← ganti false kalau mau pakai API
+
 export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
     const res = await fetch('https://fakestoreapiserver.reactbd.org/api/users');
     const data = await res.json();
@@ -10,15 +12,20 @@ export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
 });
 
 export const fetchUserById = createAsyncThunk('user/fetchUserById', async (id) => {
-    // return dummyUsers.find((u) => u.id === Number(id)) ?? null;
-      const res = await fetch(`https://fakestoreapiserver.reactbd.org/api/users/${id}`);
-  return res.json();
+    // if (USE_DUMMY) {
+    //     return dummyUsers.find((u) => u.id === Number(id)) ?? null;
+    // }
+    const res = await fetch(`https://fakestoreapiserver.reactbd.org/api/users/${id}`);
+    return res.json();
 });
 
-export const fetchCartsByUser = createAsyncThunk('user/fetchCartsByUser', async (userId) => {
-    return dummyCarts.filter((c) => c.userId === Number(userId));
-    //   const res = await fetch(`https://fakestoreapi.com/carts/user/${userId}`);
-//   return res.json();
+
+export const fetchCartsByUser = createAsyncThunk('user/fetchCartsByUser', async (id) => {
+    if (USE_DUMMY) {
+        return dummyCarts.filter((c) => c.userId === Number(id)); // ← ganti c.id → c.userId
+    }
+    const res = await fetch(`https://fakestoreapiserver.reactbd.org/api/carts/${id}`);
+    return res.json();
 });
 
 // ── Slice ─────────────────────────────────────────────────
