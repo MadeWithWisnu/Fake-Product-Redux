@@ -1,19 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import dummyProducts from '../data/dummyProducts';
 
 // ── Thunks ────────────────────────────────────────────────
 const USE_DUMMY = true;
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
-    // if (USE_DUMMY) return dummyProducts;
-    const res = await fetch('https://fakestoreapiserver.reactbd.org/api/products');
-    const data = await res.json();
-    return data.data;
+    const res = await fetch('https://fakestoreapi.com/products');
+    return res.json();
 });
 
 export const fetchPostById = createAsyncThunk('post/fetchPostById', async (id) => {
-    // if (USE_DUMMY) return dummyProducts.find((p) => p.id === Number(id)) ?? null;
-    const res = await fetch(`https://fakestoreapiserver.reactbd.org/api/products/${id}`);
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     return res.json();
 });
 

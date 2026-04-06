@@ -8,13 +8,10 @@ export const SimpleWrapper = styled.main`
     gap: 20px;              
 `;
 
-export const DetailWrapper = styled.main`
-    width: 70%;
-    min-width: 800px;
-    margin: 140px auto 0 auto;
+const DetailWrapper = styled.div`
     display: flex;
-    background-color: white;
-    border-radius: 6px;
-    border: solid 1px #bdc3c7;
-    box-shadow: 0 4px 8px 0 #bdc3c7;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
+    padding-top: 8px;
 `;

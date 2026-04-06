@@ -1,22 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { styled } from 'styled-components';
 import { fetchUsers } from '../../store/user-slice';
+import { LoadingText } from '../ui-element/LoadingText';
+import { ErrorText } from '../ui-element/ErrorText';
 import UserRow from './UserRow';
-
-const LoadingText = styled.p`
-    text-align: center;
-    color: #4b6584;
-    font-size: 16px;
-    margin-top: 20px;
-`;
-
-const ErrorText = styled.p`
-    text-align: center;
-    color: #e74c3c;
-    font-size: 16px;
-    margin-top: 20px;
-`;
 
 export default function UserGrid() {
     const dispatch = useDispatch();
@@ -34,7 +21,7 @@ export default function UserGrid() {
     return (
         <>
             {users.map((user) => (
-                <UserRow key={user._id} user={user} />
+                <UserRow key={user.id} user={user} />
             ))}
         </>
     );

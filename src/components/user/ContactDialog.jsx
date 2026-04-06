@@ -16,9 +16,9 @@ export default function ContactDialog() {
     }, [id, dispatch]);
 
     const handleClose = () => navigate('/user');
-
+    
     const fullName = user
-        ? `${user.name ?? ''}`
+        ? `${user.name?.firstname ?? ''} ${user.name?.lastname ?? ''}`
         : '…';
 
     return (
@@ -65,8 +65,8 @@ export default function ContactDialog() {
                                             <tr>
                                                 <td>Geolocation</td>
                                                 <td>
-                                                    {user.address?.geo?.lat},{' '}
-                                                    {user.address?.geo?.lng}
+                                                    {user.address?.geolocation?.lat},{' '}
+                                                    {user.address?.geolocation?.long}
                                                 </td>
                                             </tr>
                                         </tbody>

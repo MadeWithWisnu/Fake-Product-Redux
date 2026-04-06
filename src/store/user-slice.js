@@ -1,29 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import dummyUsers from '../data/dummyUsers';
-import dummyCarts from '../data/dummyCharts';
 
 const USE_DUMMY = true; // ← ganti false kalau mau pakai API
 
 export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
-    const res = await fetch('https://fakestoreapiserver.reactbd.org/api/users');
-    const data = await res.json();
-    return data.data; // ← tambahkan .data
+    const res = await fetch('https://fakestoreapi.com/users');
+    return res.json();
 });
 
 export const fetchUserById = createAsyncThunk('user/fetchUserById', async (id) => {
-    // if (USE_DUMMY) {
-    //     return dummyUsers.find((u) => u.id === Number(id)) ?? null;
-    // }
-    const res = await fetch(`https://fakestoreapiserver.reactbd.org/api/users/${id}`);
+    const res = await fetch(`https://fakestoreapi.com/users/${id}`);
     return res.json();
 });
 
 
 export const fetchCartsByUser = createAsyncThunk('user/fetchCartsByUser', async (id) => {
-    if (USE_DUMMY) {
-        return dummyCarts.filter((c) => c.userId === Number(id)); // ← ganti c.id → c.userId
-    }
-    const res = await fetch(`https://fakestoreapiserver.reactbd.org/api/carts/${id}`);
+    const res = await fetch(`https://fakestoreapi.com/carts/user/${id}`);
     return res.json();
 });
 

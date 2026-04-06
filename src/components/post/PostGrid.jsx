@@ -25,7 +25,7 @@ export default function PostGrid() {
                     ))}
                 {status === "succeeded" &&
                     products.map((product) => (
-                        <PostRow key={product._id} product={product} />
+                        <PostRow key={product.id} product={product} />
                     ))}
             </Grid>
         </>

@@ -12,8 +12,6 @@ export default function UserPage() {
                 <UserGrid />
             </SimpleWrapper>
 
-            {/* ContactDialog muncul di sini sebagai modal overlay
-                saat route /user/contact/:id aktif */}
             <Outlet />
         </>
     );

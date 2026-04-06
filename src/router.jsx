@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: 'user/cart/:id',   // ← pisah jadi route sendiri
+        path: '/user/cart/:id',
         Component: CartPage,
     },
     {

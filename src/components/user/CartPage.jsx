@@ -8,36 +8,10 @@ import { SimpleWrapper } from '../ui-element/SimpleWrapper';
 import { List } from '../ui-element/List';
 import BaseButton from '../ui-element/BaseButton';
 import ToDoSideBar from './ToDoSideBar';
-import { styled } from 'styled-components';
-
-const UserInfo = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`;
-
-const UserName = styled.div`
-    font-size: 18px;
-    text-transform: capitalize;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #4b6584;
-`;
-
-const UserMeta = styled.div`
-    margin-bottom: 4px;
-    color: #4b6584;
-
-    & span:first-child {
-        color: #686de0;
-        margin-right: 5px;
-    }
-`;
-
-const Actions = styled.div`
-    display: flex;
-    align-items: center;
-`;
+import UserInfo from '../ui-element/UserInfo';
+import UserName from '../ui-element/UserName';
+import UserMeta from '../ui-element/UserMeta';
+import { Actions } from '../ui-element/Actions';
 
 export default function CartPage() {
     const { id } = useParams();
@@ -60,16 +34,10 @@ export default function CartPage() {
                     <List>
                         <UserInfo>
                             <UserName>
-                                {user.name}
+                                {user.name.firstname} {user.name.lastname}
                             </UserName>
-                            <UserMeta>
-                                <span>username: </span>
-                                <span>{user.username}</span>
-                            </UserMeta>
-                            <UserMeta>
-                                <span>email: </span>
-                                <span>{user.email}</span>
-                            </UserMeta>
+                             <UserMeta label="username" value={user.username} />
+                             <UserMeta label="email" value={user.email} />
                         </UserInfo>
 
                         <Actions>
@@ -84,7 +52,7 @@ export default function CartPage() {
                 )}
                 {cartStatus === 'succeeded' &&
                     carts.map((cart) => (
-                        <ToDoSideBar key={cart._id} cart={cart} />
+                        <ToDoSideBar key={cart.id} cart={cart} />
                     ))
                 }
             </SimpleWrapper>

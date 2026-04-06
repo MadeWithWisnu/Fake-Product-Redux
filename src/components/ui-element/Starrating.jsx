@@ -4,13 +4,18 @@ const RateWrapper = styled.div`
     display: flex;
     gap: 5px;
     justify-content: center;
+    align-items: center;
 `;
 
 const Stars = styled.div`
-    & > i.filled {
+    display: flex;
+    gap: 2px;
+
+    i.filled {
         color: #f39c12;
+        font-size: 13px;
     }
-    & > i {
+    i.empty {
         color: #bdc3c7;
         font-size: 13px;
     }
@@ -25,14 +30,15 @@ export default function StarRating({ rating = 0, count = null, showValue = false
     return (
         <RateWrapper>
             <Stars>
-               {Array.from({ length: 5 }, (_, i) => (
-                    <span key={i}>
-                        {i < Math.round(rating) ? '⭐' : '☆'}
-                    </span>
+                {Array.from({ length: 5 }, (_, i) => (
+                    <i
+                        key={i}
+                        className={`fa-star ${i < Math.round(rating) ? 'fa-solid filled' : 'fa-regular empty'}`}
+                    />
                 ))}
             </Stars>
-            {count !== null && <Count>{(count)}</Count>}
-            ( {showValue && <Count>{(rating)}</Count>} )
+            {count !== null && <Count>({count})</Count>}
+            {showValue && <Count>({rating})</Count>}
         </RateWrapper>
     );
 }
