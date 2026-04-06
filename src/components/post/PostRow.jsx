@@ -14,19 +14,13 @@ export default function PostRow({ product }) {
             <Screen>
                 <img src={product.image} alt={product.title} />
             </Screen>
-
             <Info>
                 <Name>{product.title}</Name>
-
                 <RatingWrapper>
-                    <StarRating
-                        rating={product.rating?.rate} count={product.rating?.count}
-                    />
+                    <StarRating rating={product.rating?.rate} count={product.rating?.count} />
                 </RatingWrapper>
-
                 <Price>$ {product.price}</Price>
             </Info>
-
             <LinkContainer>
                 <Link to={`/post/${product.id}`}>View Detail</Link>
             </LinkContainer>

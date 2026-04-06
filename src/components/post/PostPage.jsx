@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { fetchPostById } from '../../store/post-slice';
+import { useQuery } from '@tanstack/react-query';
+import { getProductByIdAPI } from '../../services/product-service';
 import NavBar from '../ui-element/NavBar';
 import { SimpleWrapper } from '../ui-element/SimpleWrapper';
 import { List } from '../ui-element/List';
@@ -21,12 +20,13 @@ import { BaseTitle } from '../ui-element/BaseTitle';
 
 export default function PostPage() {
     const { id } = useParams();
-    const dispatch = useDispatch();
-    const { detail: product, detailStatus } = useSelector((state) => state.post);
 
-    useEffect(() => {
-        if (id) dispatch(fetchPostById(id));
-    }, [id, dispatch]);
+    const { data: product, isLoading } = useQuery({
+        queryKey: ['product', id],
+        queryFn: () => getProductByIdAPI(id),
+        staleTime: 60000,
+        enabled: !!id
+    });
 
     return (
         <>
@@ -38,11 +38,11 @@ export default function PostPage() {
                     </Actions>
                 </List>
 
-                {detailStatus === 'loading' && (
+                {isLoading && (
                     <LoadingText>Loading product…</LoadingText>
                 )}
 
-                {detailStatus === 'succeeded' && product && (
+                {!isLoading && product && (
                     <List>
                         <ProductWrapper>
                             <ImageContainer>
@@ -51,19 +51,14 @@ export default function PostPage() {
 
                             <DetailWrapper>
                                 <BaseTitle>{product.title}</BaseTitle>
-
                                 <PriceTag>$ {product.price}</PriceTag>
-
                                 <RatingBox>
                                     <StarRating rating={product.rating?.rate} showValue />
                                 </RatingBox>
-
                                 <Divider />
-
                                 <div>
                                     <CategoryBadge>📦 {product.category}</CategoryBadge>
                                 </div>
-
                                 <Description>
                                     <h3>Description</h3>
                                     <p>{product.description}</p>

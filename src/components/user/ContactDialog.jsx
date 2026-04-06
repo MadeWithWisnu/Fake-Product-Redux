@@ -1,45 +1,49 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchUserById, clearDetail } from '../../store/user-slice';
+import { useQuery } from '@tanstack/react-query';
+import { getContactAPI, getNameAPI } from '../../services/user-service';
 import ModalDialog from '../ui-element/ModalDialog';
 
 export default function ContactDialog() {
     const { id } = useParams();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { detail: user, detailStatus } = useSelector((state) => state.user);
 
-    useEffect(() => {
-        dispatch(fetchUserById(id));
-        return () => dispatch(clearDetail());
-    }, [id, dispatch]);
+    const { data: nameData, isLoading: nameLoading } = useQuery({
+        queryKey: ['user-name', id],
+        queryFn: () => getNameAPI(id),
+        staleTime: 60000
+    });
+
+    const { data: contact, isLoading: contactLoading } = useQuery({
+        queryKey: ['user-contact', id],
+        queryFn: () => getContactAPI(id),
+        staleTime: 60000
+    });
 
     const handleClose = () => navigate('/user');
-    
-    const fullName = user
-        ? `${user.name?.firstname ?? ''} ${user.name?.lastname ?? ''}`
-        : '…';
+
+    const fullName = nameData 
+    ? `${nameData.name?.firstname ?? ''} ${nameData.name?.lastname ?? ''}` 
+    : '…';
 
     return (
         <ModalDialog>
             {/* Header */}
             <div className="dialog-header">
-                <h2>{detailStatus === 'loading' ? 'Loading…' : fullName}</h2>
+                <h2>{nameLoading ? 'Loading…' : fullName}</h2>
                 <button type="button" onClick={handleClose}>✕</button>
             </div>
 
             {/* Body */}
-            {detailStatus === 'succeeded' && user && (
+            {!contactLoading && contact && (
                 <table>
-                    <tbody>    
+                    <tbody>
                         <tr>
                             <td>📞 Phone</td>
-                            <td>{user.phone}</td>
+                            <td>{contact.phone}</td>
                         </tr>
                         <tr>
                             <td>✉ Email</td>
-                            <td>{user.email}</td>
+                            <td>{contact.email}</td>
                         </tr>
                     </tbody>
 
@@ -52,21 +56,21 @@ export default function ContactDialog() {
                                         <tbody>
                                             <tr>
                                                 <td>City</td>
-                                                <td>{user.address?.city}</td>
+                                                <td>{contact.city}</td>
                                             </tr>
                                             <tr>
                                                 <td>Street</td>
-                                                <td>{user.address?.street}</td>
+                                                <td>{contact.street}</td>
                                             </tr>
                                             <tr>
                                                 <td>Zipcode</td>
-                                                <td>{user.address?.zipcode}</td>
+                                                <td>{contact.zipcode}</td>
                                             </tr>
                                             <tr>
-                                                <td>Geolocation</td>
+                                               <td>Geolocation</td>
                                                 <td>
-                                                    {user.address?.geolocation?.lat},{' '}
-                                                    {user.address?.geolocation?.long}
+                                                    {contact.lat},{' '}
+                                                    {contact.long}
                                                 </td>
                                             </tr>
                                         </tbody>

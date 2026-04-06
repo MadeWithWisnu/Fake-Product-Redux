@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { List } from '../ui-element/List';
 import BaseButton from '../ui-element/BaseButton';
-import UserInfo from '../ui-element/UserInfo';
 import UserName from '../ui-element/UserName';
 import UserMeta from '../ui-element/UserMeta';
+import UserInfo from '../ui-element/UserInfo';
 import { Actions } from '../ui-element/Actions';
+import { List } from '../ui-element/List';
 
 export default function UserRow({ user }) {
     const fullName = `${user.name?.firstname ?? ''} ${user.name?.lastname ?? ''}`;
@@ -16,7 +16,6 @@ export default function UserRow({ user }) {
                 <UserMeta label="username" value={user.username} />
                 <UserMeta label="email" value={user.email} />
             </UserInfo>
-
             <Actions>
                 <BaseButton as={Link} to={`/user/contact/${user.id}`}>Contact</BaseButton>
                 <BaseButton as={Link} to={`/user/cart/${user.id}`}>Cart</BaseButton>

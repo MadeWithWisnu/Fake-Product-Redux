@@ -1,32 +1,27 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../../store/post-slice";
-import { Grid } from "../ui-element/Grid";
-import NavBar from "../ui-element/NavBar";
-import PostRow from "./PostRow";
+import { useQuery } from '@tanstack/react-query';
+import { getAllProductsAPI } from '../../services/product-service';
+import { Grid } from '../ui-element/Grid';
+import NavBar from '../ui-element/NavBar';
+import PostRow from './PostRow';
 
 export default function PostGrid() {
-    const dispatch = useDispatch();
-    const { list: products, status } = useSelector((state) => state.post);
-
-    useEffect(() => {
-        if (status === "idle") {
-            dispatch(fetchPosts());
-        }
-    }, [status, dispatch]);
+    const { data: products, isLoading } = useQuery({
+        queryKey: ['products'],
+        queryFn: () => getAllProductsAPI(),
+        staleTime: 60000
+    });
 
     return (
         <>
             <NavBar />
             <Grid>
-                {status === "loading" &&
+                {isLoading &&
                     Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} style={{ backgroundColor: "white", borderRadius: "6px", opacity: 0.4 }} />
+                        <div key={i} style={{ backgroundColor: 'white', borderRadius: '6px', opacity: 0.4 }} />
                     ))}
-                {status === "succeeded" &&
-                    products.map((product) => (
-                        <PostRow key={product.id} product={product} />
-                    ))}
+                {products?.map((product) => (
+                    <PostRow key={product.id} product={product} />
+                ))}
             </Grid>
         </>
     );
