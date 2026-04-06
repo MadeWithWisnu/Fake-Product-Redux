@@ -1,27 +1,29 @@
+// Sebelum: cari product dari Redux store (post.list)
+// Sesudah: product sudah di-join di slice, tinggal pakai langsung
+
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { ProductRow } from '../ui-element/ProductRow';
 import { ProductLeft } from '../ui-element/ProductLeft';
 import { ProductImage } from '../ui-element/ProductImage';
 import { ProductInfo } from '../ui-element/ProductInfo';
 import { TotalPrice } from '../ui-element/TotalPrice';
 
-export default function ToDoList({ productId, quantity }) {
-    const products = useSelector((state) => state.post.list);
-    const product = products.find((p) => p.id === productId);
+// ✅ product sudah di-join — tidak perlu useSelector lagi
+export default function ToDoList({ item }) {
+    const { productDetail, quantity } = item;
 
-    if (!product) return null;
+    if (!productDetail) return null;
 
-    const total = (product.price * quantity).toFixed(2);
+    const total = (productDetail.price * quantity).toFixed(2);
 
     return (
         <ProductRow>
             <ProductLeft>
-                <ProductImage src={product.image} alt={product.title} />
+                <ProductImage src={productDetail.image} alt={productDetail.title} />
                 <ProductInfo>
-                    <Link to={`/post/${product.id}`}>{product.title}</Link>
+                    <Link to={`/post/${productDetail.id}`}>{productDetail.title}</Link>
                     <span>Qty: {quantity}</span>
-                    <span>Unit Price: $ {product.price}</span>
+                    <span>Unit Price: $ {productDetail.price}</span>
                 </ProductInfo>
             </ProductLeft>
             <TotalPrice>Total: $ {total}</TotalPrice>
