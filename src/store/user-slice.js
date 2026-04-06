@@ -15,34 +15,50 @@ export const fetchUserById = createAsyncThunk('user/fetchUserById', async (id) =
     return res.json();
 });
 
-export const fetchCartsByUser = createAsyncThunk('user/fetchCartsByUser', async (userId) => {
-    const res = await fetch(`https://fakestoreapi.com/carts/user/${userId}`);
-    const carts = await res.json();
+export const fetchCartsByUser = createAsyncThunk(
+    'user/fetchCartsByUser',
+    async (userId) => {
+        const res = await fetch(`https://fakestoreapi.com/carts/user/${userId}`);
+        const carts = await res.json();
 
-    // 1. Kumpulkan semua productId unik dari semua cart
-    const uniqueProductIds = [
-        ...new Set(carts.flatMap((cart) => cart.products.map((item) => item.productId)))
-    ];
+        const idSet = new Set();
+        for (let cart of carts) {
+            for (let item of cart.products) {
+                idSet.add(item.productId);
+            }
+        }
+        const uniqueProductIds = Array.from(idSet);
 
-    // 2. Fetch semua product unik secara paralel — masing-masing hanya 1x
-    const productList = await Promise.all(
-        uniqueProductIds.map((id) => fetchProductById(id))
-    );
+        const promises = [];
+        for (let id of uniqueProductIds) {
+            promises.push(fetchProductById(id));
+        }
 
-    // 3. Buat Map untuk lookup O(1)
-    const productMap = new Map(productList.map((p) => [p.id, p]));
+        const productList = await Promise.all(promises);
 
-    // 4. Join tanpa fetch tambahan — tinggal lookup dari Map
-    const enrichedCarts = carts.map((cart) => ({
-        ...cart,
-        products: cart.products.map((item) => ({
-            ...item,
-            productDetail: productMap.get(item.productId),
-        })),
-    }));
+        const productMap = new Map();
+        for (let product of productList) {
+            productMap.set(product.id, product);
+        }
 
-    return enrichedCarts;
-});
+        const enrichedCarts = [];
+        for (let cart of carts) {
+            const enrichedProducts = [];
+            for (let item of cart.products) {
+                enrichedProducts.push({
+                    ...item,
+                    productDetail: productMap.get(item.productId),
+                });
+            }
+            enrichedCarts.push({
+                ...cart,
+                products: enrichedProducts,
+            });
+        }
+
+        return enrichedCarts;
+    }
+);
 
 const userSlice = createSlice({
     name: 'user',

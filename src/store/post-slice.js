@@ -8,7 +8,7 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
 export const fetchPostById = createAsyncThunk(
     'post/fetchPostById',
     async (id, { getState }) => {
-        // ✅ Gunakan cache dari list jika sudah ada
+        // Gunakan cache dari list jika sudah ada
         const existing = getState().post.list.find((p) => p.id === Number(id));
         if (existing) return existing;
 

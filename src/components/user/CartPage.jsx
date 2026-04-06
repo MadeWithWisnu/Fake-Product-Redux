@@ -18,7 +18,7 @@ export default function CartPage() {
     const { detail: user, carts, cartStatus } = useSelector((s) => s.user);
 
     useEffect(() => {
-        // ✅ fetchPosts dihapus — product sudah di-join di dalam fetchCartsByUser
+        // fetchPosts dihapus — product sudah di-join di dalam fetchCartsByUser
         dispatch(fetchUserById(id));
         dispatch(fetchCartsByUser(id));
     }, [id, dispatch]);

@@ -8,7 +8,7 @@ import { ProductImage } from '../ui-element/ProductImage';
 import { ProductInfo } from '../ui-element/ProductInfo';
 import { TotalPrice } from '../ui-element/TotalPrice';
 
-// ✅ product sudah di-join — tidak perlu useSelector lagi
+// product sudah di-join — tidak perlu useSelector lagi
 export default function ToDoList({ item }) {
     const { productDetail, quantity } = item;
 
